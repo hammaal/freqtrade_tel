@@ -1044,10 +1044,10 @@ class Telegram(RPCHandler):
                 query.edit_message_text(text=f"Manually exiting Trade #{trade_id}, {trade.pair}")
                 self._force_exit_action(trade_id)
 
-    def _force_enter_action(self, pair, price: Optional[float], order_side: SignalDirection):
+    def _force_enter_action(self, pair, price: Optional[float], order_type: Optional[str], stake_amount: Optional[float], order_side: SignalDirection):
         if pair != 'cancel':
             try:
-                self._rpc._rpc_force_entry(pair, price, order_side=order_side)
+                self._rpc._rpc_force_entry(pair, price, order_type=order_type, stake_amount=stake_amount, order_side=order_side)
             except RPCException as e:
                 logger.exception("Forcebuy error!")
                 self._send_msg(str(e), ParseMode.HTML)
@@ -1085,7 +1085,9 @@ class Telegram(RPCHandler):
         if context.args:
             pair = context.args[0]
             price = float(context.args[1]) if len(context.args) > 1 else None
-            self._force_enter_action(pair, price, order_side)
+						order_type = context.args[2] if len(context.args) > 2 else None
+						stake_amount = float(context.args[3] if len(context.args) > 3 else None
+            self._force_enter_action(pair, price, order_type, stake_amount, order_side)
         else:
             whitelist = self._rpc._rpc_whitelist()['whitelist']
             pair_buttons = [
