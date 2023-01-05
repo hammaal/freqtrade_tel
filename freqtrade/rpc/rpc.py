@@ -763,9 +763,9 @@ class RPC:
                 f'Wrong pair selected. Only pairs with stake-currency {stake_currency} allowed.')
 
     def _rpc_force_entry(self, pair: str, price: Optional[float], *,
-                         order_type: Optional[str] = None,
+                         order_type: Optional[str],
                          order_side: SignalDirection = SignalDirection.LONG,
-                         stake_amount: Optional[float] = None,
+                         stake_amount: Optional[float],
                          enter_tag: Optional[str] = 'force_entry',
                          leverage: Optional[float] = None) -> Optional[Trade]:
         """
