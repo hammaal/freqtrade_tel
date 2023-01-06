@@ -1085,9 +1085,9 @@ class Telegram(RPCHandler):
         if context.args:
             pair = context.args[0]
             price = float(context.args[1]) if len(context.args) > 1 else None
-						order_type = context.args[2] if len(context.args) > 2 else None
-						stake_amount = float(context.args[3] if len(context.args) > 3 else None
-            self._force_enter_action(pair, price, order_type, stake_amount, order_side)
+            order_type = context.args[2] if len(context.args) > 2 else None
+            stake_amount = float(context.args[3]) if len(context.args) > 3 else None
+            self._force_enter_action(pair, price, order_type=order_type, stake_amount=stake_amount, order_side=order_side)
         else:
             whitelist = self._rpc._rpc_whitelist()['whitelist']
             pair_buttons = [
