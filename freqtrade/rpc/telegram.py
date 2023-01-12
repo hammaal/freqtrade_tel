@@ -168,7 +168,7 @@ class Telegram(RPCHandler):
             CommandHandler('start', self._start),
             CommandHandler('stop', self._stop),
             CommandHandler(['forcesell', 'forceexit', 'fx'], self._force_exit),
-            CommandHandler(['forcebuy', 'forcelong'], partial(
+            CommandHandler(['forcebuy', 'forcelong', 'fb'], partial(
                 self._force_enter, order_side=SignalDirection.LONG)),
             CommandHandler('forceshort', partial(
                 self._force_enter, order_side=SignalDirection.SHORT)),
