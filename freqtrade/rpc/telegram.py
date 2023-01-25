@@ -168,7 +168,7 @@ class Telegram(RPCHandler):
             CommandHandler('start', self._start),
             CommandHandler('stop', self._stop),
             CommandHandler(['forcesell', 'forceexit', 'fx'], self._force_exit),
-            CommandHandler(['forcebuy', 'forcelong'], partial(
+            CommandHandler(['forcebuy', 'forcelong', 'fb'], partial(
                 self._force_enter, order_side=SignalDirection.LONG)),
             CommandHandler('forceshort', partial(
                 self._force_enter, order_side=SignalDirection.SHORT)),
@@ -1085,9 +1085,19 @@ class Telegram(RPCHandler):
         """
         if context.args:
             pair = context.args[0]
-            price = float(context.args[1]) if len(context.args) > 1 else None
-            order_type = context.args[2] if len(context.args) > 2 else None
-            stake_amount = float(context.args[3]) if len(context.args) > 3 else None
+            order_type = float(context.args[1]) if len(context.args) > 1 else None
+            if order_type.upper() in ['L', 'LIMIT']:
+              order_type = 'limit'
+            else:
+              order_type = 'market'
+              
+            if order_type == 'market':
+              stake_amount = float(context.args[2]) if len(context.args) > 2 else None
+              
+            else:
+              price = context.args[2] if len(context.args) > 2 else None
+              stake_amount = float(context.args[3]) if len(context.args) > 3 else None
+              
             self._force_enter_action(pair, price, order_type=order_type, stake_amount=stake_amount, order_side=order_side)
         else:
             whitelist = self._rpc._rpc_whitelist()['whitelist']
