@@ -1045,6 +1045,7 @@ class Telegram(RPCHandler):
                 self._force_exit_action(trade_id)
 
     def _force_enter_action(self, pair, price: Optional[float], order_type: Optional[str], stake_amount: Optional[float], order_side: SignalDirection):
+        pair = pair.upper() +'/USDT'
         if pair != 'cancel':
             try:
                 self._rpc._rpc_force_entry(pair, price, order_type=order_type, stake_amount=stake_amount, order_side=order_side)
