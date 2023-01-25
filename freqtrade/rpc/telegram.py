@@ -1085,7 +1085,7 @@ class Telegram(RPCHandler):
         """
         if context.args:
             pair = context.args[0]
-            order_type = float(context.args[1]) if len(context.args) > 1 else None
+            order_type = (context.args[1]) if len(context.args) > 1 else None
             if order_type.upper() in ['L', 'LIMIT']:
               order_type = 'limit'
             else:
@@ -1095,7 +1095,7 @@ class Telegram(RPCHandler):
               stake_amount = float(context.args[2]) if len(context.args) > 2 else None
               
             else:
-              price = context.args[2] if len(context.args) > 2 else None
+              price = float(context.args[2]) if len(context.args) > 2 else None
               stake_amount = float(context.args[3]) if len(context.args) > 3 else None
               
             self._force_enter_action(pair, price, order_type=order_type, stake_amount=stake_amount, order_side=order_side)
